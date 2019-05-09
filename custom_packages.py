@@ -73,8 +73,6 @@ def install(
 
     logger.info("installing custom packages")
 
-    conda_install_package('pytorch', 'conda-forge', conda_path)
-    conda_install_package('torchvision', 'conda-forge', conda_path)
     conda_install_package('rdkit', 'rdkit', conda_path)
 
 
