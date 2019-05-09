@@ -73,8 +73,18 @@ def install(
 
     logger.info("installing custom packages")
 
-    conda_install_package('rdkit', 'rdkit', conda_path)
+    logger.info("installing rdkit")
+    subprocess.check_call([
+        os.path.join(conda_path, "bin", "conda"),
+        "install",
+        "--yes",
+        "-c", "rdkit",
+        "python=={}".format(python_version),
+        "rdkit" if rdkit_version is None else "rdkit=={}".format(rdkit_version)])
+    logger.info("done")
+
     import rdkit
+    logger.info("rdkit-{} installation finished!".format(rdkit.__version__))
 
 
 if __name__ == "__main__":
