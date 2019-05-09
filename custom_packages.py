@@ -74,6 +74,7 @@ def install(
     logger.info("installing custom packages")
 
     conda_install_package('rdkit', 'rdkit', conda_path)
+    import rdkit
 
 
 if __name__ == "__main__":
