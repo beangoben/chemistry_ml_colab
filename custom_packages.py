@@ -10,6 +10,17 @@ logger = getLogger(__name__)
 logger.addHandler(StreamHandler())
 logger.setLevel(INFO)
 
+
+def conda_install_package(package_name, conda_channel, conda_path):
+    subprocess.check_call([
+        os.path.join(conda_path, "bin", "conda"),
+        "install",
+        "--yes",
+        "-c", conda_channel,
+        package_name])
+    logger.info("installed {}".format(package_name))
+
+
 def install(
         chunk_size=4096,
         file_name="Miniconda3-latest-Linux-x86_64.sh",
@@ -62,18 +73,8 @@ def install(
 
     logger.info("installing custom packages")
 
-    # RDKit
-    subprocess.check_call([
-        os.path.join(conda_path, "bin", "conda"),
-        "install",
-        "--yes",
-        "-c", "rdkit",
-        "python=={}".format(python_version),
-        "rdkit" if rdkit_version is None else "rdkit=={}".format(rdkit_version)])
-    logger.info("done")
-
-    import rdkit
-    logger.info("rdkit-{} installation finished!".format(rdkit.__version__))
+    conda_install_package('pytorch', 'conda-forge', conda_path)
+    conda_install_package('rdkit', 'rdkit', conda_path)
 
 
 if __name__ == "__main__":
